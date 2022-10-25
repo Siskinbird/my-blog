@@ -53,6 +53,12 @@
       "body": "TEST TEST TEST",
       "author": "Mario",
       "id": 10
+    },
+    {
+      "title": "Adding history",
+      "body": "I initiate new method? he has name History! Go test it!",
+      "author": "Ivan",
+      "id": 11
     }
   ]
 }
