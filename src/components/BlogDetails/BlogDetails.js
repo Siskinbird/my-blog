@@ -1,5 +1,6 @@
 import {useHistory, useParams} from "react-router-dom";
 import useFetch from "../../useFetch";
+import axios from "axios";
 
 const BlogDetails = () => {
     const {id} = useParams()
@@ -7,9 +8,8 @@ const BlogDetails = () => {
     const history = useHistory()
 
     const handleClick = () => {
-        fetch(`http://localhost:8000/blogs/${blog.id}`, {
-            method: 'DELETE',
-        }).then(() => {
+        axios.delete(`http://localhost:8000/blogs/${blog.id}`)
+            .then(() => {
             history.push('/')
         })
     }
@@ -23,6 +23,9 @@ const BlogDetails = () => {
                     <h2>{blog.title}</h2>
                     <h3>Written by - {blog.author}</h3>
                     <p>{blog.body}</p>
+                    <p className='blog-date'>
+                        {blog.date}
+                    </p>
                     <button onClick={handleClick}>Delete</button>
                 </article>
             )}

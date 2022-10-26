@@ -1,23 +1,25 @@
 import {useState} from "react";
 import {useHistory} from 'react-router-dom'
+import axios from "axios";
 
 
 const Create = () => {
+    let currentDate = new Date().toJSON().slice(0,10).replace(/-/g,'/');
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
     const [author, setAuthor] = useState('Mario');
+    const [date, setDate] = useState(currentDate)
     const [isPending, setIsPending] = useState(false);
     const history = useHistory()
 
+
     const handleSubmit =(e) => {
         e.preventDefault();
-        const blog = {title, body, author}
+        const blog = {title, body, author, date}
         setIsPending(true)
-        fetch('http://localhost:8000/blogs', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(blog)
-        }).then(() => {
+
+        axios.post('http://localhost:8000/blogs', {...blog })
+            .then(() => {
             console.log('new blog added');
             setIsPending(false)
             history.push('/')
@@ -58,6 +60,7 @@ const Create = () => {
                 <p>{title}</p>
                 <p>{body}</p>
                 <p>{author}</p>
+                <p>{date}</p>
             </form>
         </div>
     );

@@ -79,6 +79,10 @@
   margin-top: 10px;
 }
 
+.blog-date {
+  text-align: right;
+}
+
 /* create new blog form */
 .create {
   max-width: 400px;
