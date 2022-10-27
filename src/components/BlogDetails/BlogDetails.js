@@ -1,23 +1,27 @@
 import {useHistory, useParams} from "react-router-dom";
+import {
+    getDoc,
+    deleteDoc,
+    doc
+} from 'firebase/firestore';
+
+import {db} from "../../firebase-config";
+import {useState} from "react";
 import useFetch from "../../useFetch";
-import axios from "axios";
+
 
 const BlogDetails = () => {
+    const [blog, setBlog] = useState({})
     const {id} = useParams()
-    const {data: blog, isPending, error} = useFetch(`http://localhost:8000/blogs/${id}`)
-    const history = useHistory()
-
-    const handleClick = () => {
-        axios.delete(`http://localhost:8000/blogs/${blog.id}`)
-            .then(() => {
-            history.push('/')
-        })
-    }
+    const docRef = doc(db, 'blogs', id);
+    getDoc(docRef).then((doc) => {
+        setBlog({...doc.data()})
+    })
 
     return(
         <div className="blog-details">
-            {isPending && <div>Loading...</div>}
-            {error && <div>{error}</div>}
+            {/*{isPending && <div>Loading...</div>}*/}
+            {/*{error && <div>{error}</div>}*/}
             {blog && (
                 <article>
                     <h2>{blog.title}</h2>
@@ -26,7 +30,7 @@ const BlogDetails = () => {
                     <p className='blog-date'>
                         {blog.date}
                     </p>
-                    <button onClick={handleClick}>Delete</button>
+                    {/*<button onClick={handleClick}>Delete</button>*/}
                 </article>
             )}
         </div>

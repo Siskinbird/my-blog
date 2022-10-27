@@ -1,9 +1,9 @@
 import BlogList from "../BlogList/BlogList";
 import useFetch from "../../useFetch";
-import {db} from "../../firebase-config"
 
 const Home = () => {
     const {data: blogs, isPending, error} = useFetch()
+    console.log(blogs);
     return (
         <div className="home">
             {error && <div>{error}</div>}

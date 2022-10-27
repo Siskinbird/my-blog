@@ -24,3 +24,15 @@ export const db = getFirestore();
 export const collectionRef = collection(db, 'blogs');
 //init firebase authentication
 export const auth = getAuth(app);
+
+//get collection data
+getDocs(collectionRef)
+    .then((snapshot) => {
+        let blogs = [];
+        snapshot.docs.forEach((doc) => {
+            blogs.push({ ...doc.data(), id: doc.id})
+        })
+        console.log(blogs);
+    }).catch(err => {
+    console.log(err.message);
+})
