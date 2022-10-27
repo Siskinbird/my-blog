@@ -47,7 +47,7 @@ const Login = () => {
     return (
         <div>
             <div className='register'>
-                <form>
+
                     <h3>Register User</h3>
                     <input type='email'
                            placeholder='Email...'
@@ -62,28 +62,25 @@ const Login = () => {
                            }}/>
 
                     <button onClick={register}>Create User</button>
-                </form>
+
             </div>
 
             <div className='login'>
-                <form>
-                    <h3>Log in</h3>
-                    <input type='email'
-                           placeholder='Email...'
-                           onChange={(e) => {
-                               setLoginEmail(e.target.value)
-                           }}/>
-                    <input type='password'
-                           placeholder='Password...'
-                           onChange={(e) => {
-                               setLoginPassword(e.target.value)
-                           }}/>
-
-                    <button onClick={login}>Login</button>
-                </form>
+                <h3>Log in</h3>
+                <input type='email'
+                       placeholder='Email...'
+                       onChange={(e) => {
+                           setLoginEmail(e.target.value)
+                       }}/>
+                <input type='password'
+                       placeholder='Password...'
+                       onChange={(e) => {
+                           setLoginPassword(e.target.value)
+                       }}/>
+                <button onClick={login}>Login</button>
             </div>
 
-            <h4>User Logged in: {user?.email} </h4>
+            <h4>User Logged in: {user? user.email : <div>Ooops something wrong</div>} </h4>
             <button onClick={logout}>Sign out</button>
 
         </div>

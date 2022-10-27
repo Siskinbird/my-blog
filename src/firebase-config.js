@@ -1,5 +1,9 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import {
+    getFirestore,
+    collection,
+    getDocs } from 'firebase/firestore'
 import {getAuth} from 'firebase/auth'
 import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -7,7 +11,7 @@ import { getAnalytics } from "firebase/analytics";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
+export const firebaseConfig = {
     apiKey: "AIzaSyA2cxfppBqvEFGGvUaQB9T9AK-amW38K9w",
     authDomain: "auth-for-blog.firebaseapp.com",
     projectId: "auth-for-blog",
@@ -18,4 +22,9 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+//init firebase database
+const db = getFirestore();
+//collection reference
+const collectionRef = collection(db, 'blogs');
+//init firebase authentication
 export const auth = getAuth(app);
