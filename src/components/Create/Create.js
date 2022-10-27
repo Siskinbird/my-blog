@@ -1,27 +1,28 @@
 import {useState} from "react";
 import {useHistory} from 'react-router-dom'
 import axios from "axios";
+import {addDoc} from "firebase/firestore";
+import {collectionRef} from "../../firebase-config";
 
 
 const Create = () => {
-    let currentDate = new Date().toJSON().slice(0,10).replace(/-/g,'/');
+
+    //let currentDate = new Date().toJSON().slice(0,10).replace(/-/g,'/');
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
     const [author, setAuthor] = useState('Mario');
-    const [date, setDate] = useState(currentDate)
+    //const [date, setDate] = useState(currentDate)
     const [isPending, setIsPending] = useState(false);
     const history = useHistory()
 
 
-    const handleSubmit =(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const blog = {title, body, author, date}
-        setIsPending(true)
-
-        axios.post('http://localhost:8000/blogs', {...blog })
-            .then(() => {
+        const blog = {title, body, author}
+        setIsPending(true);
+        await addDoc(collectionRef, {...blog}).then(() => {
             console.log('new blog added');
-            setIsPending(false)
+            setIsPending(false);
             history.push('/')
         })
     }
@@ -60,7 +61,7 @@ const Create = () => {
                 <p>{title}</p>
                 <p>{body}</p>
                 <p>{author}</p>
-                <p>{date}</p>
+                {/*<p>{date}</p>*/}
             </form>
         </div>
     );

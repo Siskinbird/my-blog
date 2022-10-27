@@ -1,18 +1,12 @@
 import {useEffect, useState} from "react";
-import axios from "axios";
+
 import {
     getFirestore,
     collection,
     getDocs
-} from 'firebase/firestore'
-import {initializeApp} from "firebase/app";
-import {firebaseConfig} from "./firebase-config";
+} from 'firebase/firestore';
+import {collectionRef} from "./firebase-config";
 
-
-
-initializeApp(firebaseConfig);
-const db = getFirestore();
-const collectionRef = collection(db, 'blogs');
 
 const useFetch = () => {
 
@@ -21,35 +15,35 @@ const useFetch = () => {
     const [error, setError] = useState(null)
 
     useEffect(() => {
-        getDocs(collectionRef).then((snapshot) => {
-            let blogs = [];
-            snapshot.docs.forEach((doc) => {
-                blogs.push({...doc.data(), id: doc.id})
-            })
-            setData(blogs)
+        //const abortCont = new AbortController();
+        const getBlogs = async () => {
+            const data = await getDocs(collectionRef);
+            setData(data.docs.map((doc) => ({...doc.data(), id: doc.id})));
             setIsPending(false);
-            setError(null);
-            console.log(blogs);
-        }).catch(err => {
-            console.log(err.message);
-        })
-        //
-        //
-        // const abortCont = new AbortController();
-        // axios.get(url, {signal: abortCont.signal})
-        //     .then((res) => {
-        //         setData(res.data);
+            setError(null)
+            console.log(data);
+        };
+        getBlogs().then(() => {
+            console.log(data);
+        });
+        // getDocs(collectionRef).then((snapshot) => {
+        //     let blogs = [];
+        //     snapshot.docs.forEach((doc) => {
+        //         blogs.push({...doc.data(), id: doc.id})
+        //     })
+        //     setData(blogs)
+        //     setIsPending(false);
+        //     setError(null);
+        //     console.log(blogs);
+        // }).catch((error) => {
+        //     if (error.name === 'AbortError') {
+        //         console.log('fetch aborted');
+        //     } else {
         //         setIsPending(false);
-        //         setError(null);
-        //     }).catch((error) => {
-        //         if (error.name === 'AbortError') {
-        //             console.log('fetch aborted');
-        //         } else {
-        //             setIsPending(false);
-        //             setError(error.message);
-        //         }
-        //     });
-        // return () => abortCont.abort();
+        //         setError(error.message);
+        //     }
+        // });
+        //return () => abortCont.abort();
     }, [])
     return {data, isPending, error}
 }
